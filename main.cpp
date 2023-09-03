@@ -2,7 +2,7 @@
 #include <vector>
 #include <iomanip>
 
-void askValue(int, int&, double&);
+void askValue(int, int &, double &);
 void calculate(int, int, double);
 
 int main()
@@ -32,13 +32,13 @@ int main()
               << '\n';
     for (index = 0; index < EMPLOYEE; index++)
     {
-        calculate (index, hours[index], pay_rate[index]);
+        calculate(index, hours[index], pay_rate[index]);
     }
 
     return 0;
 }
 
-void askValue(int index, int& hours, double& pay_rate)
+void askValue(int index, int &hours, double &pay_rate)
 {
     std::cout << "Please enter the hour work of worker #" << (index + 1) << ": ";
     std::cin >> hours;
@@ -49,7 +49,7 @@ void askValue(int index, int& hours, double& pay_rate)
 
 void calculate(int index, int hours, double pay_rate)
 {
-    double wage = hours* pay_rate;
+    double wage = hours * pay_rate;
     std::cout << "The wage of worker #" << (index + 1);
     std::cout << " is: $" << wage << std::endl;
 }
