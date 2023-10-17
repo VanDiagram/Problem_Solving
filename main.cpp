@@ -1,55 +1,89 @@
 #include <iostream>
 #include <vector>
-#include <iomanip>
 
-void askValue(int, int &, double &);
-void calculate(int, int, double);
+void Input(std::vector<std::vector<int>> &matrix, int n, std::string name)
+{
+    std::cout << "Enter the element of " << name <<" : " << std::endl;
+    for (int i = 0; i < n; i++)
+    {
+        std::vector<int> row;
+        for (int j = 0; j < n; j++)
+        {
+            int element;
+            std::cout << name << "[" << i << "][" << j << "]: ";
+            std::cin >> element;
+            row.push_back(element);
+        }
+        matrix.push_back(row);
+    }
+}
+
+std::vector<std::vector<int>> Sum(std::vector<std::vector<int>> &matrix1, std::vector<std::vector<int>> &matrix2, int n)
+{
+    std::vector<std::vector<int>> result;
+    for (int i = 0; i < n; i++)
+    {
+        std::vector<int> row;
+        for (int j = 0; j < n; j++)
+        {
+            row.push_back(matrix1[i][j] + matrix2[i][j]);
+        }
+        result.push_back(row);
+    }
+
+    return result;
+}
+
+std::vector<std::vector<int>> Production(std::vector<std::vector<int>> &matrix1, std::vector<std::vector<int>> &matrix2, int n)
+{
+    std::vector<std::vector<int>> result;
+    for(int i = 0; i < n; i++)
+    {
+        std::vector<int> row;
+        for(int j = 0; j < n; j++)
+        {
+            int sum = 0;
+            for(int k = 0; k < n; k++)
+            {
+                sum += matrix1[i][k] * matrix2[k][j];
+            }
+            row.push_back(sum);
+        }
+        result.push_back(row);
+    }
+
+    return result;
+}
+
+void display(std::vector<std::vector<int>> &matrix, int n, std::string name)
+{
+    std::cout << "The" << name << std::endl;
+    for(int i = 0; i < n; i++)
+    {
+        for(int j = 0; j < n; j++)
+        {
+            std::cout << matrix[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
+}
 
 int main()
 {
-    const int EMPLOYEE = 4;
-    std::vector<int> hours(EMPLOYEE);
-    std::vector<double> pay_rate(EMPLOYEE);
-    int index = 0;
-    double wage;
+    int n;
+    std::cout << "Enter number of element for the n*n matrix: ";
+    std::cin >> n;
 
-    std::cout << '\t' << '\t' << "This program will calculate the wage of each employee. " << '\n';
-    std::cout << "------------------------------------------------------------------" << '\n'
-              << '\n';
+    std::vector<std::vector<int>> matrix1, matrix2;
 
-    //! setprecision of number
-    std::cout << std::fixed << std::showpoint << std::setprecision(2);
+    Input(matrix1, n, "matrix A");
+    Input(matrix2, n, "matrix B");
 
-    // ask for hours and pay rates of each worker
-    for (index = 0; index < EMPLOYEE; index++)
-    {
-        askValue(index, hours[index], pay_rate[index]);
-    }
+    std::vector<std::vector<int>> sum = Sum(matrix1, matrix2, n);
+    std::vector<std::vector<int>> production = Production(matrix1, matrix2, n);
 
-    // calculate and return the wage of each worker
-    std::cout << '\t' << '\t' << "Here is the gross pay of each worker." << '\n';
-    std::cout << "------------------------------------------------------------------" << '\n'
-              << '\n';
-    for (index = 0; index < EMPLOYEE; index++)
-    {
-        calculate(index, hours[index], pay_rate[index]);
-    }
+    display(sum, n, " sum of matrix: ");
+    display(production, n, " sum of matrix: ");
 
     return 0;
-}
-
-void askValue(int index, int &hours, double &pay_rate)
-{
-    std::cout << "Please enter the hour work of worker #" << (index + 1) << ": ";
-    std::cin >> hours;
-
-    std::cout << "Please enter the payrate of worker #" << (index + 1) << ": ";
-    std::cin >> pay_rate;
-}
-
-void calculate(int index, int hours, double pay_rate)
-{
-    double wage = hours * pay_rate;
-    std::cout << "The wage of worker #" << (index + 1);
-    std::cout << " is: $" << wage << std::endl;
 }
